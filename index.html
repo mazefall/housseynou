@@ -61,6 +61,13 @@
   "description": "Housseynou Fall is a designer in Redmond, WA, who makes complex products feel simple, from design systems at Autodesk and Otter to apps built end to end."
 }
     </script>
+    <link rel="preconnect" href="https://github-contributions-api.jogruber.de" crossorigin />
+    <script>
+      // start the GitHub activity request right away, before the page finishes loading
+      window.ghData = fetch("https://github-contributions-api.jogruber.de/v4/mazefall?y=last")
+        .then((r) => (r.ok ? r.json() : null))
+        .catch(() => null);
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -681,6 +688,7 @@
       .gh__grid i {
         border-radius: 2px;
         background: var(--l0);
+        transition: background-color 0.5s var(--ease);
       }
 
       .gh__grid i[data-l="1"] { background: var(--l1); }
@@ -689,8 +697,33 @@
       .gh__grid i[data-l="4"] { background: var(--l4); }
 
       .facts .gh__note {
+        min-height: 1.35em; /* holds its space while the number loads */
         margin-top: 8px;
         color: var(--ink-soft);
+      }
+
+      /* ---------- gentle fade-in on load ---------- */
+
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+        }
+      }
+
+      .col--about,
+      .work {
+        animation: fade-in 0.8s var(--ease) both;
+      }
+
+      .work {
+        animation-delay: 0.15s;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .col--about,
+        .work {
+          animation: none;
+        }
       }
 
       /* ---------- narrow screens: one ordinary page ---------- */
@@ -1011,8 +1044,8 @@
               </p>
             </dd>
 
-            <dt class="gh-row" hidden>GitHub</dt>
-            <dd class="gh-row" hidden>
+            <dt class="gh-row">GitHub</dt>
+            <dd class="gh-row">
               <a class="gh" href="https://github.com/mazefall" target="_blank" rel="noopener noreferrer" aria-label="GitHub contributions">
                 <span class="gh__months" aria-hidden="true"></span>
                 <span class="gh__grid" aria-hidden="true"></span>
@@ -1553,68 +1586,65 @@
         active = document.querySelector(".work");
         drawRail();
       });
-      /* ---------- github contributions (recent months, updates itself on every visit) ---------- */
+      /* ---------- github contributions (recent months, updates itself on every visit) ----------
+         Grey squares are drawn straight away; they fill in when GitHub's numbers arrive. */
 
-      const GITHUB_USER = "mazefall";
       const GITHUB_MONTHS = 4; // how many recent months the card shows
 
       (async () => {
         const rows = document.querySelectorAll(".gh-row");
         const card = document.querySelector(".gh");
         if (!card) return;
-        try {
-          const res = await fetch(
-            `https://github-contributions-api.jogruber.de/v4/${GITHUB_USER}?y=last`
-          );
-          if (!res.ok) return;
-          const data = await res.json();
-          const today = new Date().toISOString().slice(0, 10);
-          const from = new Date();
-          from.setMonth(from.getMonth() - GITHUB_MONTHS);
-          const since = from.toISOString().slice(0, 10);
-          const days = (data.contributions || []).filter((d) => d.date >= since && d.date <= today);
-          if (!days.length) return;
+        const grid = card.querySelector(".gh__grid");
+        const months = card.querySelector(".gh__months");
+        const note = card.parentElement.querySelector(".gh__note");
+        const step = 14; // cell + gap
+        const key = (d) =>
+          `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
-          const grid = card.querySelector(".gh__grid");
-          const months = card.querySelector(".gh__months");
-          const step = 14; // cell + gap
+        // 1. the empty grid: every day from N months ago to today, in Sunday-first weeks
+        const end = new Date();
+        const start = new Date();
+        start.setMonth(start.getMonth() - GITHUB_MONTHS);
+        const dates = [];
+        for (const d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) dates.push(new Date(d));
+        const lead = dates[0].getDay();
+        let html = "";
+        let labels = "";
+        let lastMonth = -1;
+        for (let i = 0; i < lead; i++) html += '<i style="visibility:hidden"></i>';
+        dates.forEach((date, j) => {
+          const i = j + lead;
+          html += `<i data-d="${key(date)}"></i>`;
+          if (date.getMonth() !== lastMonth) {
+            // label the month above the first full week that starts in it
+            const col = Math.floor(i / 7) + (i % 7 ? 1 : 0);
+            labels += `<span style="left:${col * step}px">${date.toLocaleString("en", { month: "short" })}</span>`;
+            lastMonth = date.getMonth();
+          }
+        });
+        grid.innerHTML = html;
+        months.innerHTML = labels;
+        months.style.width = `${Math.ceil((dates.length + lead) / 7) * step}px`;
+        card.scrollLeft = card.scrollWidth; // start on the most recent weeks
 
-          // the last few months up to today, in Sunday-first week columns
-          const lead = new Date(days[0].date + "T00:00").getDay();
-          const cells = Array(lead).fill(null).concat(days);
-          const fmt = new Intl.DateTimeFormat("en", { month: "short", day: "numeric" });
-          let lastMonth = -1;
-          let html = "";
-          let labels = "";
-          cells.forEach((d, i) => {
-            if (!d) {
-              html += '<i style="visibility:hidden"></i>';
-              return;
-            }
-            const date = new Date(d.date + "T00:00");
-            const n = d.count;
-            html += `<i data-l="${d.level}" title="${n || "No"} contribution${n === 1 ? "" : "s"} on ${fmt.format(date)}"></i>`;
-            const m = date.getMonth();
-            if (m !== lastMonth) {
-              // label the month above the first full week that starts in it
-              const col = Math.floor(i / 7) + (i % 7 ? 1 : 0);
-              labels += `<span style="left:${col * step}px">${date.toLocaleString("en", { month: "short" })}</span>`;
-              lastMonth = m;
-            }
-          });
-          grid.innerHTML = html;
-          months.innerHTML = labels;
-          months.style.width = `${Math.ceil(cells.length / 7) * step}px`;
-
-          const total = days.reduce((sum, d) => sum + d.count, 0);
-          card.parentElement.querySelector(".gh__note").textContent =
-            `${total.toLocaleString("en")} contributions in the last ${GITHUB_MONTHS} months`;
-
-          rows.forEach((r) => (r.hidden = false));
-          card.scrollLeft = card.scrollWidth; // start on the most recent weeks
-        } catch (e) {
-          rows.forEach((r) => (r.hidden = true));
+        // 2. fill it in when the numbers arrive (the request started in the page head)
+        const data = await (window.ghData || Promise.resolve(null));
+        const byDay = new Map(((data && data.contributions) || []).map((d) => [d.date, d]));
+        if (!byDay.size) {
+          rows.forEach((r) => (r.hidden = true)); // no data: hide the row rather than show an empty grid
+          return;
         }
+        const fmt = new Intl.DateTimeFormat("en", { month: "short", day: "numeric" });
+        let total = 0;
+        for (const cell of grid.querySelectorAll("i[data-d]")) {
+          const d = byDay.get(cell.dataset.d);
+          const n = d ? d.count : 0;
+          total += n;
+          if (d && d.level) cell.dataset.l = d.level;
+          cell.title = `${n || "No"} contribution${n === 1 ? "" : "s"} on ${fmt.format(new Date(cell.dataset.d + "T00:00"))}`;
+        }
+        note.textContent = `${total.toLocaleString("en")} contributions in the last ${GITHUB_MONTHS} months`;
       })();
     </script>
   </body>
