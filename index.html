@@ -442,6 +442,7 @@
       }
 
       .project {
+        position: relative; /* keeps its hidden heading inside the scrolling column */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -1555,7 +1556,7 @@
       /* ---------- github contributions (recent months, updates itself on every visit) ---------- */
 
       const GITHUB_USER = "mazefall";
-      const GITHUB_MONTHS = 6; // how many recent months the card shows
+      const GITHUB_MONTHS = 4; // how many recent months the card shows
 
       (async () => {
         const rows = document.querySelectorAll(".gh-row");
