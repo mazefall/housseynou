@@ -957,6 +957,57 @@
         }
       }
 
+      /* ---------- phone tidy-up: clock above the headline, icons above
+         their text, tighter spacing, shorter case study logos ---------- */
+      @media (max-width: 820px) {
+        .top {
+          flex-direction: column-reverse;
+          align-items: flex-start;
+          gap: 12px;
+          padding-bottom: 28px;
+        }
+
+        .clock {
+          margin: 0 0 0 -6px;
+        }
+
+        .work {
+          padding-top: 28px;
+        }
+
+        .project {
+          padding: 32px 0 36px;
+        }
+
+        /* the first project starts right under the line (the hidden
+           "Projects" heading comes first, so :first-child misses it) */
+        .project:first-of-type {
+          padding-top: 0;
+        }
+
+        .blurb {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 14px;
+          margin-top: 24px;
+        }
+
+        .studies {
+          padding: 24px 0 24px;
+        }
+
+        .studies__title {
+          margin-bottom: 0;
+        }
+
+        .study__logo {
+          height: 140px;
+        }
+
+        .study__logo img {
+          max-height: 52px;
+        }
+      }
+
       @media (max-width: 1330px) and (prefers-reduced-motion: reduce) {
         .col--about,
         .page.about-open .col--about,
