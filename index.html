@@ -615,7 +615,7 @@
       .study__logo {
         display: grid;
         place-items: center;
-        height: 260px;
+        height: 190px;
         color: #4a4a4a;
         font-family: system-ui, -apple-system, "Helvetica Neue", sans-serif;
         font-weight: 700;
@@ -628,26 +628,19 @@
         max-height: 70px;
       }
 
-      /* grows to fill the card, so every "View Case Study" lines up
-         whatever the description's length */
       .study p {
-        flex: 1;
-        margin: 0 0 18px;
+        margin: 0;
         padding-left: 22px;
         line-height: 1.3;
+        text-decoration: underline dotted 1px;
+        text-underline-offset: 3px;
       }
 
       .study:first-child p {
         padding-left: 22px;
       }
 
-      .study__cta {
-        padding-left: 20px;
-        text-decoration: underline dotted 1px;
-        text-underline-offset: 3px;
-      }
-
-      .study:hover .study__cta {
+      .study:hover p {
         text-decoration-style: solid;
       }
 
@@ -655,7 +648,7 @@
         cursor: default;
       }
 
-      .study--soon .study__cta {
+      .study--soon p {
         text-decoration: none;
         color: var(--ink-soft);
       }
@@ -1316,7 +1309,6 @@
                 <p>
                   Converging two legacy design systems.
                 </p>
-                <span class="study__cta">View Case Study</span>
               </a>
               <a class="study" href="case-study-alexa.html">
                 <div class="study__logo"><img src="media/logos/alexa.svg" alt="Alexa+" /></div>
@@ -1324,14 +1316,12 @@
                   Improving the onboarding experience for new Alexa Plus
                   subscribers.
                 </p>
-                <span class="study__cta">View Case Study</span>
               </a>
               <a class="study" href="case-study-autodesk.html">
                 <div class="study__logo"><img src="media/logos/autodesk.svg" alt="Autodesk" /></div>
                 <p>
                   Weave Brand visual cohesiveness and documentation.
                 </p>
-                <span class="study__cta">View Case Study</span>
               </a>
             </div>
           </section>
