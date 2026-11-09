@@ -427,6 +427,24 @@
         filter: grayscale(1);
       }
 
+      /* workspace photo: follows the photo strip, grey like the quad clip */
+      .facts--after {
+        margin-top: 26px;
+      }
+
+      .workspace {
+        display: block;
+        width: 172px;
+      }
+
+      .workspace img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+        filter: grayscale(1);
+      }
+
       /* pinned to the bottom of the about column; the gradient lets the
          column's text fade out behind it rather than overlap */
       .foot {
@@ -1200,6 +1218,15 @@
             <img src="media/about/4.jpg" width="862" height="496" alt="A planted aquascape with a small fish" loading="lazy" />
             <img src="media/about/5.jpg" width="426" height="496" alt="Storm clouds over 140th Ave NE in the evening" loading="lazy" />
           </div>
+
+          <dl class="facts facts--after">
+            <dt>Workspace</dt>
+            <dd>
+              <a class="workspace" href="https://workspaces.xyz/p/395-housseynou-fall" target="_blank" rel="noopener noreferrer">
+                <img src="media/about/workspace.jpg" width="1280" height="796" alt="Housseynou's desk with a wall-mounted monitor, tablet stand and light, with Bailey the cat looking on" loading="lazy" />
+              </a>
+            </dd>
+          </dl>
 
           <p class="foot">©2026 All rights reserved</p>
         </section>
