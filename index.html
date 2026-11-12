@@ -71,7 +71,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&family=Inter:wght@400;600&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -536,6 +536,243 @@
 
       .media--shot img {
         object-fit: contain;
+      }
+
+      /* ---------- UseReserve: a small Mac desktop with the menu open ----------
+         Built at the Figma size (599 x 434) in design units (--u) so the
+         whole scene scales with the column. Phones get a narrower desk. */
+
+      .desk {
+        container-type: inline-size;
+        width: 100%;
+        max-width: 599px;
+      }
+
+      .desk > * {
+        --u: calc(100cqw / 599);
+      }
+
+      .desk__screen {
+        position: relative;
+        aspect-ratio: 599 / 434;
+        border-radius: 16px;
+        overflow: hidden;
+        background: #9fbfd6 url("media/usereserve/wallpaper.jpg") center / cover;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+        color: #000;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .desk__bar {
+        position: absolute;
+        inset: 0 0 auto;
+        height: calc(33 * var(--u));
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: calc(12 * var(--u));
+        padding-right: calc(14 * var(--u));
+        background: rgba(11, 44, 71, 0.23);
+        -webkit-backdrop-filter: blur(12px) saturate(1.4);
+        backdrop-filter: blur(12px) saturate(1.4);
+        color: #fff;
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+        font-size: calc(13 * var(--u));
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .desk__bar img {
+        display: block;
+        filter: brightness(0) invert(1);
+      }
+
+      .desk__status {
+        display: flex;
+        align-items: center;
+        gap: calc(6 * var(--u));
+        height: calc(24 * var(--u));
+        padding: 0 calc(9 * var(--u));
+        border-radius: calc(14 * var(--u));
+        transition: background-color 0.2s ease;
+      }
+
+      .desk__status img {
+        width: calc(18 * var(--u));
+        height: calc(18 * var(--u));
+      }
+
+      .desk__sym--wifi {
+        width: calc(15 * var(--u));
+      }
+
+      .desk__sym--search {
+        width: calc(13 * var(--u));
+      }
+
+      .desk__clock {
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* the menu: liquid glass over the wallpaper */
+      .usage {
+        position: absolute;
+        top: calc(46 * var(--u));
+        left: calc(var(--x, 280) * var(--u));
+        width: calc(288 * var(--u));
+        padding-top: calc(19 * var(--u));
+        border-radius: calc(24 * var(--u));
+        background: rgba(255, 255, 255, 0.73);
+        -webkit-backdrop-filter: blur(24px) saturate(1.2);
+        backdrop-filter: blur(24px) saturate(1.2);
+        box-shadow:
+          0 calc(24 * var(--u)) calc(24 * var(--u)) rgba(27, 54, 82, 0.15),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.55),
+          inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        font-size: calc(13 * var(--u));
+        line-height: calc(18 * var(--u));
+        transform-origin: 47% 0;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(calc(-12 * var(--u))) scale(0.96);
+        transition:
+          opacity 0.36s ease,
+          transform 0.56s cubic-bezier(0.22, 1, 0.36, 1),
+          visibility 0s linear 0.56s;
+      }
+
+      .desk.is-open .desk__status {
+        background: rgba(255, 255, 255, 0.28);
+      }
+
+      .desk.is-open .usage {
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        transition-delay: 0.12s;
+      }
+
+      .usage__head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 calc(17 * var(--u)) 0 calc(22 * var(--u));
+        font-size: calc(14 * var(--u));
+      }
+
+      .usage__head strong {
+        font-weight: 600;
+      }
+
+      .usage__head img {
+        width: calc(16 * var(--u));
+        height: calc(16 * var(--u));
+      }
+
+      .usage__group {
+        display: flex;
+        align-items: flex-start;
+        gap: calc(12 * var(--u));
+        margin: 0 calc(17 * var(--u)) 0 calc(20 * var(--u));
+        padding: calc(18 * var(--u)) calc(12 * var(--u)) calc(14 * var(--u)) 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .usage__head + .usage__group {
+        padding-top: calc(15 * var(--u));
+        border-top: 0;
+      }
+
+      .usage__group:last-child {
+        padding-bottom: calc(31 * var(--u));
+      }
+
+      .usage__icon {
+        flex: none;
+        display: grid;
+        place-items: center;
+        width: calc(28 * var(--u));
+        height: calc(28 * var(--u));
+        box-sizing: border-box;
+        border: 1px solid #e2e2e2;
+        border-radius: calc(8 * var(--u));
+        background: #fff;
+      }
+
+      .usage__icon--codex {
+        border-color: #e7e7e7;
+        background: transparent;
+      }
+
+      .usage__icon img {
+        width: calc(var(--w, 18) * var(--u));
+        height: auto;
+      }
+
+      .usage__icon--codex img { --w: 19.4648; }
+      .usage__icon img[src$="claude.png"] { --w: 20; }
+      .usage__icon img[src$="cursor.svg"] { --w: 14.9311; }
+
+      .usage__rows {
+        flex: 1;
+        display: grid;
+        gap: calc(10 * var(--u));
+        padding-top: calc(5 * var(--u));
+      }
+
+      .usage__row {
+        display: grid;
+        grid-template-columns: 1fr auto calc(61 * var(--u));
+        white-space: nowrap;
+      }
+
+      .usage__row span:not(:first-child) {
+        text-align: right;
+      }
+
+      .usage__row--reset {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: calc(6 * var(--u));
+        margin-top: calc(-1 * var(--u));
+        line-height: calc(16 * var(--u));
+      }
+
+      .usage__badge {
+        display: grid;
+        place-items: center;
+        width: calc(16 * var(--u));
+        height: calc(16 * var(--u));
+        box-sizing: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.07);
+        border-radius: 50%;
+        color: #717171;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: calc(11 * var(--u));
+        font-weight: 600;
+      }
+
+      /* phones: a narrower desk, so the menu stays readable */
+      @container (max-width: 480px) {
+        .desk > * {
+          --u: calc(100cqw / 400);
+        }
+
+        .desk__screen {
+          aspect-ratio: 400 / 434;
+        }
+
+        .usage {
+          --x: 56;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .usage,
+        .desk__status {
+          transition: none;
+        }
       }
 
       .blurb {
@@ -1281,11 +1518,55 @@
 
           <article class="project">
             <h3 class="sr-only">UseReserve</h3>
-            <div class="media media--card media--shot" style="--ar: 576 / 714">
-              <img src="media/usereserve-card.png" alt="UseReserve's Usage Remaining widget" />
+            <!-- a small Mac desktop: the menu opens from the UseReserve button when scrolled to -->
+            <div class="desk" role="img" aria-label="UseReserve's Usage Remaining menu open from the Mac menu bar">
+              <div class="desk__screen">
+              <div class="desk__bar" aria-hidden="true">
+                <span class="desk__status">
+                  <img src="media/usereserve/status-codex.png" alt="" />
+                  <span>67% remain</span>
+                </span>
+                <img class="desk__sym desk__sym--wifi" src="media/usereserve/wifi.svg" alt="" />
+                <img class="desk__sym desk__sym--search" src="media/usereserve/search.svg" alt="" />
+                <span class="desk__clock">Thu 9:41</span>
+              </div>
+              <div class="usage" aria-hidden="true">
+                <div class="usage__head">
+                  <strong>Usage Remaining</strong>
+                  <img src="media/usereserve/more.svg" width="16" height="16" alt="" />
+                </div>
+                <div class="usage__group">
+                  <span class="usage__icon usage__icon--codex"><img src="media/usereserve/codex.svg" width="19.4648" height="18.9994" alt="" /></span>
+                  <div class="usage__rows">
+                    <div class="usage__row"><span>Weekly</span><span>67%</span><span>Jul 22</span></div>
+                    <div class="usage__row usage__row--reset"><span class="usage__badge">1</span><span>Available Reset</span></div>
+                  </div>
+                </div>
+                <div class="usage__group">
+                  <span class="usage__icon"><img src="media/usereserve/claude.png" width="20" height="20" alt="" /></span>
+                  <div class="usage__rows">
+                    <div class="usage__row"><span>5hr Session</span><span>12%</span><span>1:34pm</span></div>
+                    <div class="usage__row"><span>Weekly</span><span>32%</span><span>Jul 22</span></div>
+                  </div>
+                </div>
+                <div class="usage__group">
+                  <span class="usage__icon"><img src="media/usereserve/cursor.svg" width="14.9311" height="17.0218" alt="" /></span>
+                  <div class="usage__rows">
+                    <div class="usage__row"><span>Cursor</span><span>12%</span><span>Sep 22</span></div>
+                    <div class="usage__row"><span>Other Models</span><span>32%</span><span>Sep 22</span></div>
+                  </div>
+                </div>
+                <div class="usage__group">
+                  <span class="usage__icon"><img src="media/usereserve/grok.svg" width="18" height="18" alt="" /></span>
+                  <div class="usage__rows">
+                    <div class="usage__row"><span>Weekly</span><span>12%</span><span>Sep 7</span></div>
+                  </div>
+                </div>
+              </div>
+              </div>
             </div>
             <div class="blurb">
-              <img class="blurb__icon" src="media/icons/usereserve.svg" alt="" />
+              <img class="blurb__icon" src="media/icons/usereserve.png" alt="" />
               <div>
                 <p>
                   I designed and built a lightweight macOS app that makes tracking
@@ -1364,6 +1645,23 @@
         addEventListener("load", () => {
           setTimeout(() => hobbyVideo.play().catch(() => {}), 1000);
         });
+      }
+
+      /* ---------- UseReserve: open the menu when the desk scrolls into view ---------- */
+
+      for (const desk of document.querySelectorAll(".desk")) {
+        if (calm || !("IntersectionObserver" in window)) {
+          desk.classList.add("is-open");
+          continue;
+        }
+        new IntersectionObserver(
+          ([e]) => {
+            // open once most of the desk is showing; close once it has left, so it plays again
+            if (e.intersectionRatio >= 0.55) desk.classList.add("is-open");
+            else if (!e.isIntersecting) desk.classList.remove("is-open");
+          },
+          { threshold: [0, 0.55] }
+        ).observe(desk);
       }
 
       /* ---------- fading screens ---------- */
