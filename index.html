@@ -548,8 +548,11 @@
         max-width: 599px;
       }
 
+      /* --ww: desk width in units; --wy: how far the cover-fit wallpaper sits above the top */
       .desk > * {
         --u: calc(100cqw / 599);
+        --ww: 599;
+        --wy: -166.4;
       }
 
       .desk__screen {
@@ -557,7 +560,8 @@
         aspect-ratio: 599 / 434;
         border-radius: 16px;
         overflow: hidden;
-        background: #9fbfd6 url("media/usereserve/wallpaper.jpg") center / cover;
+        background: #9fbfd6 url("media/usereserve/wallpaper.jpg") 0 calc(var(--wy) * var(--u)) /
+          100% auto no-repeat;
         font-family: "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
         color: #000;
         -webkit-font-smoothing: antialiased;
@@ -572,9 +576,12 @@
         justify-content: flex-end;
         gap: calc(12 * var(--u));
         padding-right: calc(14 * var(--u));
-        background: rgba(11, 44, 71, 0.23);
-        -webkit-backdrop-filter: blur(12px) saturate(1.4);
-        backdrop-filter: blur(12px) saturate(1.4);
+        /* glass without backdrop-filter (Safari draws seams in it): a blurred
+           copy of the wallpaper lined up with the one behind */
+        background:
+          linear-gradient(rgba(11, 44, 71, 0.23), rgba(11, 44, 71, 0.23)),
+          url("media/usereserve/wallpaper-blur.jpg") 0 calc(var(--wy) * var(--u)) /
+            calc(var(--ww) * var(--u)) auto no-repeat;
         color: #fff;
         font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
         font-size: calc(13 * var(--u));
@@ -622,9 +629,11 @@
         width: calc(288 * var(--u));
         padding-top: calc(19 * var(--u));
         border-radius: calc(24 * var(--u));
-        background: rgba(255, 255, 255, 0.73);
-        -webkit-backdrop-filter: blur(24px) saturate(1.2);
-        backdrop-filter: blur(24px) saturate(1.2);
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.73), rgba(255, 255, 255, 0.73)),
+          url("media/usereserve/wallpaper-blur.jpg")
+            calc(var(--x, 280) * var(--u) * -1) calc((var(--wy) - 46) * var(--u)) /
+            calc(var(--ww) * var(--u)) auto no-repeat;
         box-shadow:
           0 calc(24 * var(--u)) calc(24 * var(--u)) rgba(27, 54, 82, 0.15),
           inset 0 0 0 1px rgba(255, 255, 255, 0.55),
@@ -757,6 +766,8 @@
       @container (max-width: 480px) {
         .desk > * {
           --u: calc(100cqw / 400);
+          --ww: 400;
+          --wy: -39;
         }
 
         .desk__screen {
