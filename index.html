@@ -380,6 +380,26 @@
         margin-top: 14px;
       }
 
+      .facts .bio {
+        margin-top: 4px;
+      }
+
+      .facts .bio p + p,
+      .facts .bio__rest p {
+        margin-top: 12px;
+      }
+
+      .bio__more {
+        text-decoration: underline;
+        text-decoration-style: dotted;
+        text-underline-offset: 3px;
+        text-decoration-thickness: 1px;
+      }
+
+      .bio__more:hover {
+        text-decoration-style: solid;
+      }
+
       .say {
         display: inline-flex;
         vertical-align: -2px;
@@ -1339,20 +1359,50 @@
             </dd>
 
             <dt>Specialty</dt>
-            <dd>Designer, Photographer, Sketcher<br />Builder</dd>
+            <dd>Designer, Photographer, Sketcher, Builder</dd>
 
             <dt>Experience</dt>
             <dd>
               <p>10+ Years</p>
-              <p>
-                Senior Product Designer specializing in design systems, with a
-                hands-on, code-first approach. Unified the component libraries
-                at Autodesk and Otter, and now design and build my own products.
-              </p>
+              <div class="bio">
+                <p>
+                  I love taking complex problems and making them feel simple.
+                  But what I enjoy just as much is working with people and
+                  building something great together.
+                </p>
+                <p>
+                  That's one of the reasons I love design systems. They're more
+                  than just components and guidelines. They help break down
+                  silos between design and engineering, encourage both sides to
+                  appreciate each other's craft, and give everyone a voice in
+                  what we're building.
+                  <button
+                    class="bio__more"
+                    id="bioMore"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls="bioRest"
+                  >…read more</button>
+                </p>
+                <div class="bio__rest" id="bioRest" hidden>
+                  <p>
+                    Over the years, I've learned that good design isn't just
+                    about how something looks or feels. It's about being
+                    curious, understanding different perspectives, and putting
+                    real thought into the decisions we make.
+                  </p>
+                  <p>
+                    Lately, I've been getting more hands-on with development and
+                    building my own products. It's given me a whole new
+                    appreciation for the work that goes into bringing ideas to
+                    life.
+                  </p>
+                </div>
+              </div>
             </dd>
 
-            <dt class="gh-row">GitHub</dt>
-            <dd class="gh-row">
+            <dt class="gh-row gap">GitHub</dt>
+            <dd class="gh-row gap">
               <a class="gh" href="https://github.com/mazefall" target="_blank" rel="noopener noreferrer" aria-label="GitHub contributions">
                 <span class="gh__months" aria-hidden="true"></span>
                 <span class="gh__grid" aria-hidden="true"></span>
@@ -1629,6 +1679,25 @@
 
       const RESUME = "media/Housseynou-Fall-Resume.pdf";
       const NAME_AUDIO = ""; // e.g. "media/housseynou.m4a"
+
+      /* ---------- experience: read more ---------- */
+
+      (() => {
+        const more = document.getElementById("bioMore");
+        const rest = document.getElementById("bioRest");
+        if (!more || !rest) return;
+        const home = more.parentElement;
+        const tail = rest.querySelector("p:last-child");
+        more.addEventListener("click", (e) => {
+          const open = rest.hidden;
+          rest.hidden = !open;
+          more.setAttribute("aria-expanded", String(open));
+          more.textContent = open ? "See less" : "…read more";
+          (open ? tail : home).append(more);
+          // keep keyboard focus on the moved button; skip for mouse taps
+          if (e.detail === 0) more.focus({ preventScroll: true });
+        });
+      })();
 
       /* ---------- video slots ---------- */
 
