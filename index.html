@@ -480,6 +480,24 @@
         pointer-events: none;
       }
 
+      /* thank-you note, pinned to the bottom right of the window,
+         level with the copyright line in the bottom left */
+      .thanks {
+        position: fixed;
+        right: var(--gutter);
+        bottom: 0;
+        z-index: 5;
+        margin: 0;
+        padding: 28px 0 20px 32px;
+        font-size: 13px;
+        /* same soft fade as the copyright line, so work scrolling under
+           it never collides with the words */
+        background: linear-gradient(to bottom, transparent, var(--bg) 24px);
+        -webkit-mask-image: linear-gradient(to right, transparent, #000 28px);
+        mask-image: linear-gradient(to right, transparent, #000 28px);
+        pointer-events: none;
+      }
+
       /* ---------- work ---------- */
 
       .work {
@@ -916,6 +934,14 @@
       .study--soon p {
         text-decoration: none;
         color: var(--ink-soft);
+      }
+
+      /* wide screens: the row fits, so center the cards (title stays left) */
+      @media (min-width: 1661px) {
+        .studies__row {
+          justify-content: center;
+          margin-right: 0;
+        }
       }
 
       /* ---------- github contributions ---------- */
@@ -1668,6 +1694,7 @@
       </div>
 
       <p class="page-foot">©2026 All rights reserved</p>
+      <p class="thanks">Thank you for visiting!</p>
 
       <div class="scrim" id="aboutScrim"></div>
     </div>
